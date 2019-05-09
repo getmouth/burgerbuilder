@@ -1,22 +1,7 @@
 (function(){
   var pokemonRepository = (function(){
-    var repository = [
-      {
-        name: "Charizard",
-        height: 7,
-        types: ['fire', 'flying']
-      },
-      {
-        name: "Ivysaur",
-        height: 1,
-        types: ['grass', 'poision']
-      },
-      {
-        name: "Charmander",
-        height: 0.6,
-        types: ['fire']
-      }
-    ]
+    var repository = [];
+    var apiUrl = 'https://pokeapi.co/api/v2/pokemon/?limit=150';
 
     function getAll() {
       return repository;
@@ -25,16 +10,52 @@
     function add(pokemon) {
       repository.push(pokemon);
     }
-    console.log(getAll())
+
+     //loads all pokemon lists
+     loadList = () => (
+      fetch(apiUrl).then(resp => resp.json())
+      .then(resp => {
+        resp.results.forEach(item => {
+          var pokemon = {
+            name: item.name,
+            detailUrl: item.url
+          };
+          add(pokemon);
+        })
+      })
+      .catch(err => console.log(err))
+    );
+
+    loadDetails = pokemon => {
+      var url = pokemon.detailUrl;
+
+      return fetch(url).then(resp => resp.json())
+                .then(details => {
+                  pokemon.imageUrl = details.sprites.front_default;
+                  pokemon.height   = details.height;
+                  pokemon.types    = Object.keys(details.types); 
+                })
+                .catch(err => console.log(err));
+    };
+
     return {
       add: add,
-      getAll: getAll
+      getAll: getAll,
+      loadList: loadList,
+      loadDetails: loadDetails,
     }
     
   })();
 
-  /******Gets and Render each pokemon */
-  var allPokemons = pokemonRepository.getAll();
+   /*******************
+     Gets and Render each pokemon 
+    ********************/
+
+  pokemonRepository.loadList().then(() => {
+    var allPokemons = pokemonRepository.getAll();
+    console.log('all pokemons ',allPokemons)
+    allPokemons.forEach(renderPokemon)
+  })
   
   function renderPokemon(poke) {
     var pokeUl = document.getElementsByClassName('pokemons-list');
@@ -47,26 +68,15 @@
     li.addEventListener('click',() => {
       showDetails(poke)
     });
-
-
-    // var height;
-    // if (poke.height === 7) {
-    //   height = '<span>'+ poke.height + " Wow that's big" + '</span>';
-    // }else {
-    //   height = poke.height;
-    // }
-    // console.log(pokeUl);
-    //document.write('<p>' + name + ' ' + height + '</p>')
   }
 
-  /***Displays Pokemon detailed page */
+  /*********************
+    Displays Pokemon detailed page 
+   *********************/
 
   showDetails = (pokemon) => {
-    console.log('pokemon logged: ', pokemon);
+    pokemonRepository.loadDetails(pokemon)
+      .then(() => console.log(pokemon));
   }
-  
 
-  allPokemons.forEach(renderPokemon)
-  pokemonRepository.add({name: 'Kakuma', height: 0.6, types: ['Bug', 'Poison']})
-  console.log(Object.keys(pokemonRepository.getAll()))
 })();
