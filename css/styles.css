@@ -24,6 +24,10 @@ body {
   list-style-type: none;
 }
 
+.input-wrapper, .error-message {
+ display: inline;
+}
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -53,4 +57,67 @@ body {
   padding-top: 20px;
   font-size: 20px;
   font-weight: 400;
+}
+
+
+#modal-container {
+  position: fixed;
+  padding: 20px;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  z-index: 1000;
+  overflow: auto;
+  display: grid;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.modal {
+  margin: auto;
+  display: inline-block;
+  box-sizing: border-box;
+  padding: 15px;
+  width: 100%;
+  max-width: 700px;
+  text-align: left;
+  background: #fff;
+}
+
+.modal-close {
+  float: right;
+  -webkit-appearance: none;
+  border: 0;
+  background: none;
+  text-decoration: underline;
+  color: #777;
+}
+
+
+.modal h1 {
+  margin-top: 0;
+}
+
+.modal p {
+  margin-bottom: 10px;
+
+}
+
+#modal-container {
+  display: none;
+}
+
+#modal-container.is-visible {
+  display: grid;
+}
+
+.modal-cancel {
+  margin-left: 10px;
+}
+
+canvas {
+  border: solid #000 1px;
+  touch-action: none;
 }

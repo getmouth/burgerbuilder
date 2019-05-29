@@ -60,6 +60,7 @@
   function renderPokemon(poke) {
     var pokeUl = document.getElementsByClassName('pokemons-list');
     var li = document.createElement('li');
+    li.classList.add('poke')
     var name = poke.name;
 
     li.textContent = name;
