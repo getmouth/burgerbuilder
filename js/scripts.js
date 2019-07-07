@@ -36,6 +36,7 @@
                   pokemon.types    = details.types.map(poke => poke.type.name); 
                   console.log(details)
                   console.log(pokemon.types)
+
                 })
                 .catch(err => console.log(err));
     };
@@ -60,6 +61,7 @@
   })
   
   function renderPokemon(poke) {
+
     var pokeUl = document.querySelector('.pokemons-list');
     var li = document.createElement('li');
     var name = poke.name;
@@ -72,6 +74,7 @@
         if(name === poke.name){
           showDetails(poke)
         }
+
     });
   }
 

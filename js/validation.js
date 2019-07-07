@@ -122,9 +122,15 @@
     $modalContainer.classList.add('is-visible');
   }
 
+<<<<<<< HEAD
   var pokeUl = document.querySelector('pokemons-list');
   console.log('All Nodes',pokeUl)
   pokeUl.addEventListener('click', () => {
+=======
+  var pokeUl = document.getElementsByClassName('pokemons-list');
+  console.log('All Nodes',pokeUl)
+  pokeUl[0].addEventListener('click', () => {
+>>>>>>> 114a1496e864d63d5548bac87f4dc90e6a55eb45
     showModal('Modal Title', 'This is the Modal content')
   });
 
@@ -206,6 +212,61 @@
       })
 
 
+<<<<<<< HEAD
+=======
+  var $canvas = document.getElementById('canvas');
+  var isDrawing = false;
+  var previousX = null;
+  var previousY = null;
+  
+  handleStart = (e) => {
+    isDrawing = true;
+    //initiate previousX/Y
+
+    var x = e.pageX;
+    var y = e.pageY;
+        previousX = x;
+        previousY = y;
+  }
+
+  handleEnd = () => {
+    isDrawing = false;
+  }
+
+  handleMove = (e) => {
+    if(!isDrawing) return;
+    
+    var x = e.pageX;
+    var y = e.pageY;
+       
+
+     // This is canvas specific—we can use the context to draw shapes
+    var ctx = $canvas.getContext('2d');
+        // Draw a line from previousX/previousY to x/y
+        ctx.beginPath();
+        ctx.moveTo(previousX, previousY);
+        ctx.lineTo(x, y);
+
+        // Set the style of the line
+        ctx.lineWidth = 4;
+        ctx.strokeStyle = '#ff0000';
+        ctx.stroke();
+
+        // Set previous coordinates for next move event
+        previousX = x;
+        previousY = y;
+
+        console.log('moved')
+  }
+
+
+
+  $canvas.addEventListener("pointerdown", handleStart);
+  $canvas.addEventListener("pointerup", handleEnd);
+  $canvas.addEventListener("pointercancel", handleEnd);
+  $canvas.addEventListener("pointermove", handleMove);
+
+>>>>>>> 114a1496e864d63d5548bac87f4dc90e6a55eb45
 })();
 
 
