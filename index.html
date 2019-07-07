@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"> 
   <link rel="stylesheet" type="text/css" href="css/styles.css">
+  <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
   <title>Students JS App</title>
 </head>
 <body>
@@ -13,8 +14,18 @@
     <nav class="navbar">
       <ul>
         <li>Pokemo Land</li>
+        <form action="/" id="form">
+          <div class='input-wrapper'>
+            <input type="text" id="email" placeholder="Email Address">
+          </div>
+          <div class='input-wrapper'>
+            <input type="password" id="password" placeholder="Password">
+          </div>
+          <input type="submit" value="Register">
+        </form>
       </ul>
     </nav>
+   <div id="modal-container"></div>
 
     <div class="container">
       <div class="pokemons-container">
@@ -29,6 +40,7 @@
   </header>
   <script src="js/promise-polyfill.js"></script>
   <script src="js/fetch.umd.js"></script>
+  <script src="js/velocity.js"></script>
   <script src="js/scripts.js"></script>
 </body>
 </html>

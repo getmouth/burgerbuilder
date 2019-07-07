@@ -33,7 +33,9 @@
                 .then(details => {
                   pokemon.imageUrl = details.sprites.front_default;
                   pokemon.height   = details.height;
-                  pokemon.types    = Object.keys(details.types); 
+                  pokemon.types    = details.types.map(poke => poke.type.name); 
+                  console.log(details)
+                  console.log(pokemon.types)
                 })
                 .catch(err => console.log(err));
     };
@@ -58,25 +60,89 @@
   })
   
   function renderPokemon(poke) {
-    var pokeUl = document.getElementsByClassName('pokemons-list');
+    var pokeUl = document.querySelector('.pokemons-list');
     var li = document.createElement('li');
     var name = poke.name;
+        li.classList.add('poke')
+        li.textContent = name;
+        pokeUl.appendChild(li);
 
-    li.textContent = name;
-    pokeUl[0].appendChild(li);
-
-    li.addEventListener('click',() => {
-      showDetails(poke)
+      pokeUl.addEventListener('click',(e) => {
+        var name = e.target.innerText;
+        if(name === poke.name){
+          showDetails(poke)
+        }
     });
   }
 
   /*********************
     Displays Pokemon detailed page 
    *********************/
+  var $modalContainer = document.getElementById('modal-container');
+
 
   showDetails = (pokemon) => {
     pokemonRepository.loadDetails(pokemon)
-      .then(() => console.log(pokemon));
+      .then(() => {
+        var modal    = document.createElement('div');
+        var image    = document.createElement('img');
+        var name     = document.createElement('h1');
+        var height   = document.createElement('p');
+        var types    = document.createElement('p');
+        var closeBtn = document.createElement('button');
+        var exist    = $modalContainer.querySelector('.modal')
+        
+        pokemon.types.map(type => {
+          var span = document.createElement('span');
+              span.innerText = type;
+            return types.appendChild(span);
+          
+        });
+
+      if(exist) $modalContainer.removeChild(exist);
+
+      modal.classList.add('modal');
+      image.classList.add('pokemon-img')
+      types.classList.add('pokemon-types')
+      closeBtn.classList.add('modal-close')
+      image.setAttribute('src',pokemon.imageUrl);
+      name.innerText   = pokemon.name;
+      height.innerText = 'Height - ' + pokemon.height  
+      closeBtn.innerText = 'Close'  
+      closeBtn.addEventListener('click',hideDetails)              
+          
+      modal.appendChild(name);
+      modal.appendChild(closeBtn);
+      modal.appendChild(types);
+      modal.appendChild(image);
+      modal.appendChild(height);
+      
+      $modalContainer.appendChild(modal);
+      $modalContainer.classList.add('is-visible')
+     
+    });
   }
+
+  
+
+  /*********************
+    Hide Pokemon detailed page 
+   *********************/
+
+  hideDetails = () => {
+    $modalContainer.classList.remove('is-visible')
+  }
+
+  window.addEventListener('keydown', (e) => {
+    if(e.key=== 'Escape') {
+      hideDetails();
+    }
+  });
+
+  $modalContainer.addEventListener('click', (e) => {
+    if(e.target === $modalContainer) {
+      hideDetails();
+    }
+  })
 
 })();
